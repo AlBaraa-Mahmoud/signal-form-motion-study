@@ -39,16 +39,16 @@ The renderer streams frames with backpressure instead of saving a full image seq
 
 | Time | Scene | Motion decision |
 | --- | --- | --- |
-| 0–4s | Receive | Masked, staggered type reveal with cubic ease-out; phase-driven signal bars |
-| 4–8s | Transform | Fifteen orbital contours driven by phase, frequency and amplitude; restrained rotation |
+| 0–4s | Receive | Masked, staggered type reveal with cubic-Bezier ease-out (0.16, 1, 0.30, 1); phase-driven signal bars |
+| 4–8s | Transform | Fifteen orbital contours driven by phase, frequency and amplitude; eased rotation |
 | 8–12s | Resolve | Staggered bar growth and synchronized numeric counters from seven synthetic values |
 
-The dark evergreen field, warm off-white typography and acid-lime accents create a restrained editorial system. A persistent grid, scene labels, progress line and frame counter connect the sequence. Short fades isolate the three visual statements. The fixed design space uses 64-unit side margins; export resolution scales this space proportionally.
+The dark evergreen field, warm off-white typography and acid-lime accents create a restrained editorial system. Sans-serif typography is used throughout. Chart values and index labels are centered on their bars. Staggered masked text reveals and fast-to-slow Bezier curves shape the entrances; smoothstep fades soften scene boundaries. A persistent grid, scene labels, progress line and frame counter connect the sequence. Short fades isolate the three visual statements. The fixed design space uses 64-unit side margins; export resolution scales this space proportionally.
 
 Edit `src/config.js`:
 
 - `title`, `subtitle`: opening copy. Title scales horizontally to its allocated width; keep copy short to preserve typography.
-- `font`, `mono`: local system font families. Install the same fonts on each machine for consistent metrics.
+- `font`, `labelFont`: local system font families. Install the same fonts on each machine for consistent metrics.
 - `colors`: background, ink, muted, accent and grid colors.
 - `data`: finite values from 0 to 100; drives final bar heights and number counters. Seven values are the designed layout; more values can crowd labels.
 - `fps`, `duration`, `timings`: scene boundaries and frame sampling. Boundaries must ascend, leave more than one second per scene and end at duration. Copy edits may need layout adjustments.

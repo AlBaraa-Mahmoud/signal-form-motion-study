@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signal / Form — Motion Study</title>
+<style>body{margin:0;background:#0a100f;color:#f1f0df;font:15px Arial;padding:32px;box-sizing:border-box}main{max-width:1280px;margin:auto}header,footer{display:flex;justify-content:space-between;gap:20px;align-items:center}h1{font-size:20px}canvas{width:100%;height:auto;display:block;border:1px solid #293b35;margin:24px 0}button{background:#d8ff62;border:0;padding:12px 20px;cursor:pointer}input{flex:1;accent-color:#d8ff62}small{color:#8daba0} @media(prefers-reduced-motion:reduce){canvas{scroll-behavior:auto}}</style>
+<main><header><h1>SIGNAL / FORM</h1><small>Original AI-assisted Canvas motion study · 12 seconds</small></header>
+<canvas aria-label="Three-scene animation: kinetic typography, an oscillating orbital field, and seven data bars"></canvas>
+<footer><button id="play">Play</button><input aria-label="Animation frame" id="seek" type="range" min="0" value="0"><output id="time"></output></footer><p><small>Pause or scrub to inspect timing. Edit src/config.js to change typography, colors, data and scene timing. No audio.</small></p></main>
+<script type="module">
+import {config as c} from './src/config.js';import {draw,validate} from './src/motion.js';
+validate(c);const canvas=document.querySelector('canvas');canvas.width=c.width;canvas.height=c.height;
+const ctx=canvas.getContext('2d'),seek=document.querySelector('#seek'),play=document.querySelector('#play'),out=document.querySelector('#time');
+seek.max=c.duration*c.fps-1;let running=!matchMedia('(prefers-reduced-motion: reduce)').matches,base=performance.now(),start=0;
+function paint(f){draw(ctx,f,c);seek.value=f;out.textContent=`${(f/c.fps).toFixed(2)}s`;}
+function label(){play.textContent=running?'Pause':'Play';}label();
+play.onclick=()=>{start=+seek.value;base=performance.now();running=!running;label();};
+seek.oninput=()=>{running=false;label();paint(+seek.value);};
+function tick(now){if(running)paint((start+Math.floor((now-base)*c.fps/1000))%(+seek.max+1));requestAnimationFrame(tick);}paint(0);requestAnimationFrame(tick);
+</script></html>

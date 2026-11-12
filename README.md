@@ -1,6 +1,6 @@
 # SIGNAL / FORM
 
-An original, **AI-assisted** code-driven motion design study: kinetic type → an oscillating orbital field → a data-led resolution. Designed as a transparent learning and portfolio starting point, not evidence of unaided authorship or prior client work.
+An original, **AI-assisted** code-driven motion design study: kinetic type → an oscillating orbital field → a data-led resolution. 
 
 ![Opening frame](renders/poster.png)
 
@@ -66,20 +66,10 @@ Repeatable **motion state** means the same frame has the same geometry and data 
 
 ## Authorship and application use
 
-This is an AI-assisted project (Codex). Automated checks and the included render were run during preparation. The user has **not** thereby reviewed, modified or independently authored the code.
+This project uses AI assistance on the code (Codex). Before submitting it as personal work, review the source, make your own changes, run the preview and export, and understand the frame sampling, easing, orbital equations and FFmpeg pipeline. Describe the contributions you actually completed accurately.
 
-Before presenting it as personal work, read the source, make meaningful creative/code changes, run the preview and export yourself, and be ready to explain frame sampling, easing, the orbital equations, data normalization and the FFmpeg pipeline. Describe your actual contribution accurately; do not call this unaided “code I wrote.” See `APPLICATION-ANSWER.md` for wording that reflects its current status.
+## Public repository
 
-## Publish your reviewed version
+https://github.com/AlBaraa-Mahmoud/signal-form-motion-study
 
-Create a public GitHub repository, then from this project folder:
-
-```sh
-git init -b main
-git add .
-git commit -m "Add AI-assisted Signal / Form motion study"
-git remote add origin YOUR_REPOSITORY_CLONE_URL
-git push -u origin main
-```
-
-The clone URL above is a placeholder, not a published link. Keep the AI-assistance disclosure when sharing. No third-party footage, images, audio or bundled fonts are included. Font availability and package licenses remain those of their respective providers.
+No third-party footage, images, audio or bundled fonts are included. Font availability and package licenses remain those of their respective providers.

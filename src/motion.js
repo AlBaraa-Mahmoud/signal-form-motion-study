@@ -10,6 +10,14 @@ export function ease(v) {
   return bez((lo+hi)/2,1,1);
 }
 const smooth = v => {v=clamp(v);return v*v*(3-2*v);};
+// Stop the invisible Bezier tail from changing glyph antialiasing every frame.
+// Keep fractional movement during the entrance, then lock to the exact target
+// once the remaining travel is below half an output pixel. Never bounce/round
+// moving text to whole pixels: that would introduce stepping on the way in.
+const settle = (distance, progress, scale) => {
+  const remaining=distance*(1-progress);
+  return Math.abs(remaining)*scale<.5 ? 0 : remaining;
+};
 export function validate(c) {
   if (![c.width,c.height,c.fps,c.duration].every(v=>Number.isFinite(v)&&v>0)) throw Error('Positive finite dimensions, fps and duration required');
   if(c.width%2||c.height%2||!Number.isInteger(c.fps)||!Number.isInteger(c.duration*c.fps)) throw Error('Use even dimensions, integer fps and an integral frame count');
@@ -37,15 +45,15 @@ export function draw(ctx, frame, c=defaults) {
     const p=ease((local-delay)/1.05);
     ctx.save();ctx.beginPath();ctx.rect(x-4,y-size*1.2,1156-x,size*1.55);ctx.clip();
     ctx.globalAlpha*=smooth((local-delay)/.22);
-    text(s,x,y+(1-p)*size*.8,size,color,font);ctx.restore();
+    text(s,x,y+settle(size*.8,p,c.height/H),size,color,font);ctx.restore();
   };
   ctx.save();ctx.globalAlpha=opacity;
   text(['01 / RECEIVE','02 / TRANSFORM','03 / RESOLVE'][scene],64,104,16,C.accent,c.labelFont);
   if(scene===0){
     const enter=ease(local/1.3);
     ctx.save();ctx.beginPath();ctx.rect(64,150,1152,320);ctx.clip();
-    fitted(c.title[0],58,318+(1-enter)*160,1100,190,C.ink);
-    fitted(c.title[1],63,464+(1-ease((local-.18)/1.3))*160,600,146,C.accent);ctx.restore();
+    fitted(c.title[0],58,318+settle(160,enter,c.height/H),1100,190,C.ink);
+    fitted(c.title[1],63,464+settle(160,ease((local-.18)/1.3),c.height/H),600,146,C.accent);ctx.restore();
     for(let i=0;i<36;i++){
       const x=678+i*14, amplitude=(26+Math.sin(i*.54+t*2.8)*22)*ease((local-.5-i*.018)/.8);
       line(x,422-amplitude,x,422+amplitude,C.accent,5);
@@ -74,7 +82,8 @@ export function draw(ctx, frame, c=defaults) {
     const chartX=688, chartY=541, gap=528/c.data.length;
     c.data.forEach((v,i)=>{
       const progress=ease((local-.25-i*.085)/1.5);
-      const h=v*3.45*progress,x=chartX+i*gap,center=x+gap*.3;
+      const target=v*3.45;
+      const h=target-settle(target,progress,c.height/H),x=chartX+i*gap,center=x+gap*.3;
       ctx.fillStyle=i===3?C.accent:C.muted;ctx.fillRect(x,chartY-h,gap*.6,h);
       text(String(Math.round(v*progress)).padStart(2,'0'),center,chartY-h-15,18,C.ink,c.labelFont,'center');
       text(String(i+1).padStart(2,'0'),center,570,12,C.muted,c.labelFont,'center');

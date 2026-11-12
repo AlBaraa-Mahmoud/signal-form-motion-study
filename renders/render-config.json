@@ -4,7 +4,7 @@
   "fps": 30,
   "duration": 12,
   "font": "Arial",
-  "mono": "Courier New",
+  "labelFont": "Arial",
   "colors": {
     "background": "#101918",
     "ink": "#f1f0df",
@@ -30,6 +30,5 @@
     "introEnd": 4,
     "orbitEnd": 8,
     "end": 12
-  },
-  "safe": 64
+  }
 }
